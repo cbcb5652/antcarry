@@ -255,7 +255,7 @@ public class ProductCategoryDao {
 	}
 	
 	//根据子类获取商品信息
-	public static JSONObject selectProductByChildId(int childid,int count) {
+	public static JSONObject selectProductByChildId(int count) {
 		JSONObject product = new JSONObject();
 		ArrayList<String> ID=new ArrayList<String>();
 		ArrayList<String> Name=new ArrayList<String>();
@@ -266,11 +266,10 @@ public class ProductCategoryDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_PRODUCT where APC_CHILD_ID=? limit ?,?";
+				String sql = "select * from ants_product order by  ap_view_count desc limit ?,?";
 				statement = connection.prepareStatement(sql);
-				statement.setInt(1, childid);
-				statement.setInt(2, 0);
-				statement.setInt(3, count);
+				statement.setInt(1, 0);
+				statement.setInt(2, count);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();

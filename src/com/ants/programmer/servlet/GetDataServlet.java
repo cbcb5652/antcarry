@@ -3,11 +3,9 @@ package com.ants.programmer.servlet;
 import com.ants.programmer.dao.AnnouncementDao;
 import com.ants.programmer.dao.ProductCategoryDao;
 import com.ants.programmer.dao.ProductDao;
-import com.ants.programmer.dao.RedisDao;
 import com.ants.programmer.util.ItemsCFUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +22,6 @@ public class GetDataServlet extends HttpServlet {
     private JSONArray special = null;
 
 
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doPost(request, response);
@@ -37,8 +34,6 @@ public class GetDataServlet extends HttpServlet {
         response.setContentType("text/html.charset=utf-8");
         HttpSession session = request.getSession();
         String mobile = (String) session.getAttribute("mobile");
-
-        Jedis jedis = RedisDao.getJedis();
 
         JSONArray img = new JSONArray();
 
@@ -90,16 +85,12 @@ public class GetDataServlet extends HttpServlet {
                 specialName = ProductDao.getData(specialindex, 4, "name");
                 img.add(specialImage);
             }
-
-
         }
 
 
         //最热闲置
-        ArrayList<Integer> apcId = ProductCategoryDao.selectApcIDByCount();
-        int hotindex = (int) (Math.random() * apcId.size());
 
-        JSONObject Hot = ProductCategoryDao.selectProductByChildId(apcId.get(hotindex), 4);
+        JSONObject Hot = ProductCategoryDao.selectProductByChildId( 4);
         if (Hot.size() > 0) {
             hotID = Hot.getJSONArray("goodsID");
             hotImage = Hot.getJSONArray("goodsImg");
@@ -116,130 +107,38 @@ public class GetDataServlet extends HttpServlet {
 
 
         //化妆数据渲染
-        JSONArray firId = new JSONArray();
-        JSONArray firImage = new JSONArray();
-        JSONArray firName = new JSONArray();
-        String fir = jedis.get("firId");
-        String firImg = jedis.get("firImage");
-        String firname = jedis.get("firName");
-        if (fir == null || fir.equals("")) {
-            firId = ProductDao.getData(10, 10, "id");
-            firImage = ProductDao.getData(10, 10, "filename");
-            firName = ProductDao.getData(10, 10, "name");
-            jedis.set("firId", firId.toString());
-            jedis.set("firImage", firImage.toString());
-            jedis.set("firName", firName.toString());
-        } else {
-            firId = JSONArray.fromObject(fir);
-            firImage = JSONArray.fromObject(firImg);
-            firName = JSONArray.fromObject(firname);
-        }
+        JSONArray firId = ProductDao.getData(4, 10, "id");
+        JSONArray firImage = ProductDao.getData(4, 10, "filename");
+        JSONArray firName = ProductDao.getData(4, 10, "name");
 
 
         //考试
-        JSONArray secId = new JSONArray();
-        JSONArray secImage = new JSONArray();
-        JSONArray secName = new JSONArray();
-        String sec = jedis.get("secId");
-        String secImg = jedis.get("secImage");
-        String secname = jedis.get("secName");
-        if (sec == null || sec.equals("")) {
-            secId = ProductDao.getData(8, 10, "id");
-            secImage = ProductDao.getData(8, 10, "filename");
-            secName = ProductDao.getData(8, 10, "name");
-            jedis.set("secId", secId.toString());
-            jedis.set("secImage", secImage.toString());
-            jedis.set("secName", secName.toString());
-        } else {
-            secId = JSONArray.fromObject(sec);
-            secImage = JSONArray.fromObject(secImg);
-            secName = JSONArray.fromObject(secname);
-        }
+        JSONArray secId = ProductDao.getData(1, 10, "id");
+        JSONArray secImage = ProductDao.getData(1, 10, "filename");
+        JSONArray secName = ProductDao.getData(1, 10, "name");
 
 
-        //器具
-        JSONArray thiId = new JSONArray();
-        JSONArray thiImage = new JSONArray();
-        JSONArray thiName = new JSONArray();
-        String thi = jedis.get("thiId");
-        String thiImg = jedis.get("thiImage");
-        String thiname = jedis.get("thiName");
-        if (thi == null || thi.equals("")) {
-            thiId = ProductDao.getData(21, 10, "id");
-            thiImage = ProductDao.getData(21, 10, "filename");
-            thiName = ProductDao.getData(21, 10, "name");
-            jedis.set("thiId", thiId.toString());
-            jedis.set("thiImage", thiImage.toString());
-            jedis.set("thiName", thiName.toString());
-        } else {
-            thiId = JSONArray.fromObject(thi);
-            thiImage = JSONArray.fromObject(thiImg);
-            thiName = JSONArray.fromObject(thiname);
-        }
-
+        //文具
+        JSONArray thiId = ProductDao.getData(2, 10, "id");
+        JSONArray thiImage = ProductDao.getData(2, 10, "filename");
+        JSONArray thiName = ProductDao.getData(2, 10, "name");
 
         //衣裤
-        JSONArray forsId = new JSONArray();
-        JSONArray forsImage = new JSONArray();
-        JSONArray forsName = new JSONArray();
-        String fors = jedis.get("forsId");
-        String forsImg = jedis.get("forsImage");
-        String forsname = jedis.get("forsName");
-        if (fors == null || fors.equals("")) {
-            forsId = ProductDao.getData(14, 10, "id");
-            forsImage = ProductDao.getData(14, 10, "filename");
-            forsName = ProductDao.getData(14, 10, "name");
-            jedis.set("forsId", forsId.toString());
-            jedis.set("forsImage", forsImage.toString());
-            jedis.set("forsName", forsName.toString());
-        } else {
-            forsId = JSONArray.fromObject(fors);
-            forsImage = JSONArray.fromObject(forsImg);
-            forsName = JSONArray.fromObject(forsname);
-        }
+        JSONArray forsId = ProductDao.getData(3, 10, "id");
+        JSONArray forsImage = ProductDao.getData(3, 10, "filename");
+        JSONArray forsName = ProductDao.getData(3, 10, "name");
 
 
         //桌椅
-        JSONArray fifId = new JSONArray();
-        JSONArray fifImage = new JSONArray();
-        JSONArray fifName = new JSONArray();
-        String fif = jedis.get("fifId");
-        String fifImg = jedis.get("fifImage");
-        String fifname = jedis.get("fifName");
-        if (fif == null || fif.equals("")) {
-            fifId = ProductDao.getData(12, 10, "id");
-            fifImage = ProductDao.getData(12, 10, "filename");
-            fifName = ProductDao.getData(12, 10, "name");
-            jedis.set("fifId", fifId.toString());
-            jedis.set("fifImage", fifImage.toString());
-            jedis.set("fifName", fifName.toString());
-        } else {
-            fifId = JSONArray.fromObject(fif);
-            fifImage = JSONArray.fromObject(fifImg);
-            fifName = JSONArray.fromObject(fifname);
-        }
+        JSONArray fifId = ProductDao.getData(8, 10, "id");
+        JSONArray fifImage = ProductDao.getData(8, 10, "filename");
+        JSONArray fifName = ProductDao.getData(8, 10, "name");
 
 
-        //手机
-        JSONArray sixId = new JSONArray();
-        JSONArray sixImage = new JSONArray();
-        JSONArray sixName = new JSONArray();
-        String six = jedis.get("sixId");
-        String sixImg = jedis.get("sixImage");
-        String sixname = jedis.get("fifName");
-        if (six == null || six.equals("")) {
-            sixId = ProductDao.getData(16, 10, "id");//filename
-            sixImage = ProductDao.getData(16, 10, "filename");
-            sixName = ProductDao.getData(16, 10, "name");
-            jedis.set("sixId", sixId.toString());
-            jedis.set("sixImage", sixImage.toString());
-            jedis.set("sixName", sixName.toString());
-        } else {
-            sixId = JSONArray.fromObject(six);
-            sixImage = JSONArray.fromObject(sixImg);
-            sixName = JSONArray.fromObject(sixname);
-        }
-
+        //电器
+        JSONArray sixId = ProductDao.getData(6, 10, "id");//filename
+        JSONArray sixImage = ProductDao.getData(6, 10, "filename");
+        JSONArray sixName = ProductDao.getData(6, 10, "name");
 
         //组合
         JSONObject Message = new JSONObject();

@@ -129,4 +129,20 @@ public class ProductBean {
 		this.Status = Status;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductBean{" +
+				"Id='" + Id + '\'' +
+				", Mobile='" + Mobile + '\'' +
+				", Name='" + Name + '\'' +
+				", Price=" + Price +
+				", Introduce='" + Introduce + '\'' +
+				", Ways='" + Ways + '\'' +
+				", Bargin='" + Bargin + '\'' +
+				", ApcId=" + ApcId +
+				", ApcChildId=" + ApcChildId +
+				", FileName='" + FileName + '\'' +
+				", Status=" + Status +
+				'}';
+	}
 }

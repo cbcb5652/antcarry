@@ -164,8 +164,7 @@ public class UpLoadServlet extends HttpServlet {
 				product = new ProductBean(shopID, User, goodsName, Double.parseDouble(goodsPrice), goodsIntroduce, Ways,
 					Bargin, Child, Parent, path, 1);
 			}
-			
-			
+
 			//将新的数据存入到ES搜索引擎中
 			JSONObject seller=UsersDao.selectMyself(User);
 			String userImg=seller.getString("userImg");
@@ -173,6 +172,7 @@ public class UpLoadServlet extends HttpServlet {
 			String goodsSource=seller.getString("address");
 			JSONObject json=ElasticSearchDao.jsonProduct(userImg, userName, goodsSource, shopID, 
 					goodsName, goodsPrice, goodsIntroduce, Ways, Bargin, path, "1");
+
 			ElasticSearchDao.insertData(json, client);
 			
 		} else if (Status.equals("2")) {// 发布寻求
