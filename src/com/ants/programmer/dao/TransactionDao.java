@@ -13,7 +13,7 @@ import net.sf.json.JSONObject;
 public class TransactionDao {
 	// 插入数据
 	public static int insert(TransactionBean user) {
-		String sql = "insert into ANTS_TRANSACTION values(?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into ants_transaction values(?,?,?,?,?,?,?,?,?,?,?)";
 		Object[] params = { user.getId(),user.getMobile(), user.getName(), user.getPrice(), user.getIntroduce(), user.getWays(),
 				user.getBargin(), user.getParentId(), user.getChildId(), user.getFileName(), user.getStatus() };
 		return BaseDao.exectuIUD(sql, params);
@@ -21,7 +21,7 @@ public class TransactionDao {
 
 	// 删除某一行数据
 	public static int delete(String id) {
-		String sql = "delete from ANTS_TRANSACTION where AT_ID=?";
+		String sql = "delete from ants_transaction where at_id=?";
 		Object[] params = { id };
 		return BaseDao.exectuIUD(sql, params);
 
@@ -29,7 +29,7 @@ public class TransactionDao {
 	
 	//根据订单号和手机号码删除信息
 	public static int deleteByIdAndMobile(String id,String mobile) {
-		String sql = "delete from ANTS_TRANSACTION where AT_ID=? and AT_MOBILE=?";
+		String sql = "delete from ants_transaction where at_id=? and at_mobile=?";
 		Object[] params = { id ,mobile};
 		return BaseDao.exectuIUD(sql, params);
 
@@ -44,13 +44,13 @@ public class TransactionDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select AT_MOBILE from ANTS_TRANSACTION where AT_ID=? and AT_MOBILE!=?";
+				String sql = "select at_mobile from ants_transaction where at_id=? and at_mobile!=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, id);
 				statement.setString(2, id);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
-					Mobile = resultset.getString("AT_MOBILE");
+					Mobile = resultset.getString("at_mobile");
 				}
 				return Mobile;
 
@@ -73,12 +73,12 @@ public class TransactionDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select APC_CHILD_ID from ANTS_TRANSACTION where AT_ID=?";
+				String sql = "select apc_child_id from ants_transaction where at_id=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, id);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
-					ChildID = resultset.getInt("APC_CHILD_ID");
+					ChildID = resultset.getInt("apc_child_id");
 				}
 				return ChildID;
 
@@ -113,9 +113,9 @@ public class TransactionDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				sql = "select * from ANTS_TRANSACTION where AT_MOBILE=? and AT_STATUS=?";
+				sql = "select * from ants_transaction where at_mobile=? and at_status=?";
 				if (status != 3) {
-					sql = "select * from ANTS_TRANSACTION where AT_MOBILE=? and AT_STATUS=? or AT_STATUS=?";
+					sql = "select * from ants_transaction where at_mobile=? and at_status=? or at_status=?";
 				}
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, mobile);
@@ -129,20 +129,20 @@ public class TransactionDao {
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();
-					ID.add(resultset.getString("AT_ID"));
-					Mobile.add(resultset.getString("AT_MOBILE"));
-					Name.add(resultset.getString("AT_NAME"));
-					Price.add(resultset.getDouble("AT_PRICE"));
-					Introduce.add(resultset.getString("AT_INTRODUCE"));
-					Ways.add(resultset.getString("AT_WAYS"));
-					Bargin.add(resultset.getString("AT_BARGIN"));
-					String filename=resultset.getString("AT_FILE_NAME");
+					ID.add(resultset.getString("at_id"));
+					Mobile.add(resultset.getString("at_mobile"));
+					Name.add(resultset.getString("at_name"));
+					Price.add(resultset.getDouble("at_price"));
+					Introduce.add(resultset.getString("at_introduce"));
+					Ways.add(resultset.getString("at_ways"));
+					Bargin.add(resultset.getString("at_bargin"));
+					String filename=resultset.getString("at_file_name");
 					String fn[]=filename.split(";");
 					for(String FileName:fn) {
 						img.add(FileName);
 					}
 					fileName.add(img);
-					Status.add(resultset.getInt("AT_STATUS"));
+					Status.add(resultset.getInt("at_status"));
 				}
 				for (String m : Mobile) {
 					JSONObject seller = UsersDao.selectMyself(m);
@@ -169,7 +169,7 @@ public class TransactionDao {
 
 	// 改变交易的状态（正在交易/交易成功)
 	public static void changeStatus(TransactionBean transaction) {
-		String sql = "update ANTS_TRANSACTION set AT_STATUS=? where AT_ID=?";
+		String sql = "update ants_transaction set at_status=? where at_id=?";
 
 		Object[] params = { transaction.getStatus(), transaction.getId() };
 		BaseDao.exectuIUD(sql, params);
@@ -186,23 +186,23 @@ public class TransactionDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_TRANSACTION where AT_ID=? and AT_MOBILE=?";
+				String sql = "select * from ants_transaction where at_id=? and at_mobile=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, id);
 				statement.setString(2, sellermobile);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();
-					product.put("goodsID", resultset.getString("AT_ID"));
-					product.put("goodsMobile", resultset.getString("AT_MOBILE"));
-					product.put("goodsName", resultset.getString("AT_NAME"));
-					product.put("goodsPrice", resultset.getDouble("AT_PRICE"));
-					product.put("goodsIntroduce", resultset.getString("AT_INTRODUCE"));
-					product.put("goodsWays", resultset.getString("AT_WAYS"));
-					product.put("goodsBargin", resultset.getString("AT_BARGIN"));
-					product.put("parentId", resultset.getString("APC_ID"));
-					product.put("childId", resultset.getString("APC_CHILD_ID"));
-					String fileName=resultset.getString("AT_FILE_NAME");
+					product.put("goodsID", resultset.getString("at_id"));
+					product.put("goodsMobile", resultset.getString("at_mobile"));
+					product.put("goodsName", resultset.getString("at_name"));
+					product.put("goodsPrice", resultset.getDouble("at_price"));
+					product.put("goodsIntroduce", resultset.getString("at_introduce"));
+					product.put("goodsWays", resultset.getString("at_ways"));
+					product.put("goodsBargin", resultset.getString("at_bargin"));
+					product.put("parentId", resultset.getString("apc_id"));
+					product.put("childId", resultset.getString("apc_child_id"));
+					String fileName=resultset.getString("at_file_name");
 					String fn[]=fileName.split(";");
 					for(String filename:fn) {
 						img.add(filename);

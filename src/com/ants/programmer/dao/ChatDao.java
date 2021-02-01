@@ -53,7 +53,7 @@ public class ChatDao {
 
 	// 删除mobile与对方买家/卖家的的聊天信息
 	public static int delete(String mobile, String to) {
-		String sql = "delete from ANTS_OFFLINE where ANTS_MOBILE=? and ANTS_USERNAME=?";
+		String sql = "delete from ants_offline where ants_mobile=? and ants_username=?";
 		Object[] params = { mobile, to };
 		return BaseDao.exectuIUD(sql, params);
 
@@ -75,17 +75,17 @@ public class ChatDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_OFFLINE where ANTS_username=?";
+				String sql = "select * from ants_offline where ants_username=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, mobile);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
-					MyMobile.add(resultset.getString("ANTS_MOBILE"));
-					UserName.add(resultset.getString("ANTS_USERNAME"));
-					To.add(resultset.getString("ANTS_TO"));
-					Message.add(resultset.getString("ANTS_MESSAGE"));
-					Time.add(resultset.getString("ANTS_TIME"));
-					goodid.add(resultset.getString("ANTS_GOODID"));
+					MyMobile.add(resultset.getString("ants_mobile"));
+					UserName.add(resultset.getString("ants_username"));
+					To.add(resultset.getString("ants_to"));
+					Message.add(resultset.getString("ants_message"));
+					Time.add(resultset.getString("ants_time"));
+					goodid.add(resultset.getString("ants_goodid"));
 				}
 				shop.put("myMobile", MyMobile);
 				shop.put("userName", UserName);

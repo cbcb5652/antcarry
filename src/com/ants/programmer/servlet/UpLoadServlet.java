@@ -145,7 +145,6 @@ public class UpLoadServlet extends HttpServlet {
 					
 				}
 			}else {
-
 				path =path+ "images" + goodsPath.substring(goodsPath.lastIndexOf("\\"))+";";
 			}
 			

@@ -17,12 +17,12 @@ public class UsersDao {
 		ResultSet resultset = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "select * from ants_users where AU_USER_ID=?";
+			String sql = "select * from ants_users where au_user_id=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, userid);
 			resultset = statement.executeQuery();
 			while (resultset.next()) {
-				if (resultset.getString("AU_USER_ID").equals(userid)) {
+				if (resultset.getString("au_user_id").equals(userid)) {
 					return true;
 				}
 			}
@@ -36,6 +36,8 @@ public class UsersDao {
 
 	// 根据商品的id来选择对应的用户
 	public static JSONObject selectUser(String id) {
+
+
 		JSONObject product = new JSONObject();
 
 		Connection connection = null;
@@ -44,17 +46,16 @@ public class UsersDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_USERS where AU_USER_ID="
-						+ "(select AP_MOBILE from ANTS_PRODUCT where AP_ID=?)";
+				String sql = "select * from ants_users where au_user_id="
+						+ "(select ap_mobile from ants_product where ap_id=?)";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, id);
 				resultset = statement.executeQuery();
 
 
-				System.out.println(statement.toString());
-				System.out.println(resultset.toString());
-
 				while (resultset.next()) {
+
+
 					product.put("userName", resultset.getString("au_user_name"));
 					product.put("userImg", resultset.getString("au_photo"));
 					product.put("userMobile", resultset.getString("au_mobile"));
@@ -86,17 +87,17 @@ public class UsersDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_USERS where AU_USER_ID=?";
+				String sql = "select * from ants_users where au_user_id=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, mobile);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
-					product.put("userName", resultset.getString("AU_USER_NAME"));
-					product.put("userImg", resultset.getString("AU_PHOTO"));
-					product.put("userMobile", resultset.getString("AU_MOBILE"));
-					product.put("wcHide", resultset.getString("WECHATHIDDEN"));
-					product.put("qqHide", resultset.getString("QQHIDDEN"));
-					product.put("address", resultset.getString("AU_ADDRESS"));
+					product.put("userName", resultset.getString("au_user_name"));
+					product.put("userImg", resultset.getString("au_photo"));
+					product.put("userMobile", resultset.getString("au_mobile"));
+					product.put("wcHide", resultset.getString("wechathidden"));
+					product.put("qqHide", resultset.getString("qqhidden"));
+					product.put("address", resultset.getString("au_address"));
 				}
 
 			} catch (SQLException e) {
@@ -115,8 +116,8 @@ public class UsersDao {
 		java.sql.PreparedStatement statement = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "insert into ANTS_USERS(AU_USER_ID, AU_USER_NAME,AU_PASSWORD,"
-					+ "AU_MOBILE,AU_PHOTO,WECHAT,QQ,WECHATHIDDEN,QQHIDDEN,AU_ADDRESS) values(?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into ants_users(au_user_id, au_user_name,au_password,"
+					+ "au_mobile,au_photo,wechat,qq,wechathidden,qqhidden,au_address) values(?,?,?,?,?,?,?,?,?,?)";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, userid);
 			statement.setString(2, userid);
@@ -147,8 +148,8 @@ public class UsersDao {
 		java.sql.PreparedStatement statement = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "insert into ANTS_USERS(AU_USER_ID, AU_USER_NAME,AU_PASSWORD,"
-					+ "AU_MOBILE,AU_PHOTO,WECHAT,QQ,WECHATHIDDEN,QQHIDDEN,AU_ADDRESS) values(?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into ants_users(au_user_id, au_user_name,au_password,"
+					+ "au_mobile,au_photo,wechat,qq,wechathidden,qqhidden,au_address) values(?,?,?,?,?,?,?,?,?,?)";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, userid);
 			statement.setString(2, userid);
@@ -180,19 +181,19 @@ public class UsersDao {
 		ResultSet resultset = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "select * from ants_users where AU_USER_ID=?";
+			String sql = "select * from ants_users where au_user_id=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, userid);
 			resultset = statement.executeQuery();
 			while (resultset.next()) {
-				user.put("name", resultset.getString("AU_USER_NAME"));
-				user.put("mobile", resultset.getString("AU_MOBILE"));
-				user.put("wechat", resultset.getString("WECHAT"));
-				user.put("QQ", resultset.getString("QQ"));
-				user.put("address", resultset.getString("AU_ADDRESS"));
-				user.put("img", resultset.getString("AU_PHOTO"));
-				user.put("wcHide", resultset.getString("WECHATHIDDEN"));
-				user.put("qqHide", resultset.getString("QQHIDDEN"));
+				user.put("name", resultset.getString("au_user_name"));
+				user.put("mobile", resultset.getString("au_mobile"));
+				user.put("wechat", resultset.getString("wechat"));
+				user.put("QQ", resultset.getString("qq"));
+				user.put("address", resultset.getString("au_address"));
+				user.put("img", resultset.getString("au_photo"));
+				user.put("wcHide", resultset.getString("wechathidden"));
+				user.put("qqHide", resultset.getString("qqhidden"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -209,7 +210,7 @@ public class UsersDao {
 		java.sql.PreparedStatement statement = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "update ANTS_USERS set AU_USER_NAME=?, WECHAT=?, QQ=?,AU_ADDRESS=?,WECHATHIDDEN=?,QQHIDDEN=? where AU_USER_ID=?";
+			String sql = "update ants_users set au_user_name=?, wechat=?, qq=?,au_address=?,wechathidden=?,qqhidden=? where au_user_id=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, name);
 			statement.setString(2, wechat);
@@ -234,7 +235,7 @@ public class UsersDao {
 		java.sql.PreparedStatement statement = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "update ANTS_USERS set AU_PASSWORD=? where AU_USER_ID=?";
+			String sql = "update ants_users set au_password=? where au_user_id=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, password);
 			statement.setString(2, userid);
@@ -255,7 +256,7 @@ public class UsersDao {
 		java.sql.PreparedStatement statement = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "update ANTS_USERS set AU_PHOTO=? where AU_USER_ID=?";
+			String sql = "update ants_users set an_photo=? where au_user_id=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, photo);
 			statement.setString(2, userid);
@@ -276,14 +277,14 @@ public class UsersDao {
 		ResultSet resultset = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "select  * from ANTS_USERS where  AU_USER_ID=? and  AU_PASSWORD=?";
+			String sql = "select  * from ants_users where  au_user_id=? and  au_password=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, userid);
 			statement.setString(2, password);
 			resultset = statement.executeQuery();
 			while (resultset.next()) {
-				if (resultset.getString("AU_USER_ID").equals(userid)
-						&& resultset.getString("AU_PASSWORD").equals(password)) {
+				if (resultset.getString("au_user_id").equals(userid)
+						&& resultset.getString("au_password").equals(password)) {
 					return true;
 				}
 			}

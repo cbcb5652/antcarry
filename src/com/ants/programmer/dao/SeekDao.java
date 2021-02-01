@@ -32,22 +32,22 @@ public class SeekDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_PRODUCT where AP_MOBILE=? and AP_STATUS=?";
+				String sql = "select * from ants_product where ap_mobile =? and ap_status=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, mobile);
 				statement.setInt(2, status);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();
-					ID.add(resultset.getString("AP_ID"));
-					Name.add(resultset.getString("AP_NAME"));
-					Price.add(resultset.getDouble("AP_PRICE"));
-					Introduce.add(resultset.getString("AP_INTRODUCE"));
-					Ways.add(resultset.getString("AP_WAYS"));
-					Bargin.add(resultset.getString("AP_BARGIN"));
-					ParentID.add(resultset.getInt("APC_ID"));
-					ChildID.add(resultset.getInt("APC_CHILD_ID"));
-					String filename=resultset.getString("AP_FILE_NAME");
+					ID.add(resultset.getString("ap_id"));
+					Name.add(resultset.getString("ap_name"));
+					Price.add(resultset.getDouble("ap_price"));
+					Introduce.add(resultset.getString("ap_introduce"));
+					Ways.add(resultset.getString("ap_ways"));
+					Bargin.add(resultset.getString("ap_bargin"));
+					ParentID.add(resultset.getInt("apc_id"));
+					ChildID.add(resultset.getInt("apc_child_id"));
+					String filename=resultset.getString("ap_file_name");
 					String fn[]=filename.split(";");
 					for(String FileName:fn) {
 						img.add(FileName);
@@ -104,19 +104,19 @@ public class SeekDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_PRODUCT where AP_MOBILE=?";
+				String sql = "select * from ants_product where ap_mobile=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, mobile);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();
-					ID.add(resultset.getString("AP_ID"));
-					Name.add(resultset.getString("AP_NAME"));
-					Price.add(resultset.getDouble("AP_PRICE"));
-					Introduce.add(resultset.getString("AP_INTRODUCE"));
-					Ways.add(resultset.getString("AP_WAYS"));
-					Bargin.add(resultset.getString("AP_BARGIN"));
-					String fileName=resultset.getString("AP_FILE_NAME");
+					ID.add(resultset.getString("ap_id"));
+					Name.add(resultset.getString("ap_name"));
+					Price.add(resultset.getDouble("ap_price"));
+					Introduce.add(resultset.getString("ap_introduce"));
+					Ways.add(resultset.getString("ap_ways"));
+					Bargin.add(resultset.getString("ap_bargin"));
+					String fileName=resultset.getString("ap_file_name");
 					String fn[]=fileName.split(";");
 					for(String filename:fn) {
 						img.add(filename);

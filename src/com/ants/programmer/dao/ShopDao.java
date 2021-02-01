@@ -21,11 +21,11 @@ public class ShopDao {
 		ResultSet resultset = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "select AP_ID from ants_shop ";
+			String sql = "select ap_id from ants_shop ";
 			statement = connection.prepareStatement(sql);
 			resultset = statement.executeQuery();
 			while (resultset.next()) {
-				shopID.add(resultset.getString("AP_ID"));
+				shopID.add(resultset.getString("ap_id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,11 +43,11 @@ public class ShopDao {
 		ResultSet resultset = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "select AS_SELLER_MOBILE from ants_shop ";
+			String sql = "select as_seller_mobile from ants_shop ";
 			statement = connection.prepareStatement(sql);
 			resultset = statement.executeQuery();
 			while (resultset.next()) {
-				shopMobile.add(resultset.getString("AS_SELLER_MOBILE"));
+				shopMobile.add(resultset.getString("as_seller_mobile"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,12 +64,12 @@ public class ShopDao {
 		ResultSet resultset = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "select AP_ID from ants_shop where AS_SELLER_MOBILE=?";
+			String sql = "select ap_id from ants_shop where as_seller_mobile=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, mobile);
 			resultset = statement.executeQuery();
 			while (resultset.next()) {
-				if(resultset.getString("AP_ID").equals(shopid)) {
+				if(resultset.getString("ap_id").equals(shopid)) {
 					return true;
 				}
 			}
@@ -91,12 +91,12 @@ public class ShopDao {
 		ResultSet resultset = null;
 		try {
 			connection = BaseDao.getConnection();
-			String sql = "select * from ants_shop where AP_ID=?";
+			String sql = "select * from ants_shop where ap_id=?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, id);
 			resultset = statement.executeQuery();
 			while (resultset.next()) {
-				if (resultset.getString("AP_ID") .equals(id) ) {
+				if (resultset.getString("ap_id") .equals(id) ) {
 					return true;
 				}
 			}
@@ -110,14 +110,14 @@ public class ShopDao {
 
 	// 插入数据
 	public static int insert(ShopBean shop) {
-		String sql = "insert into ANTS_SHOP values(?,?,?)";
+		String sql = "insert into ants_shop values(?,?,?)";
 		Object[] params = { shop.getId(), shop.getSellerMobile(), shop.getTime() };
 		return BaseDao.exectuIUD(sql, params);
 	}
 
 	// 删除某一行数据
 	public static int delete(String id) {
-		String sql = "delete from ANTS_SHOP where AP_ID=?";
+		String sql = "delete from ants_shop where ap_id=?";
 		Object[] params = { id };
 		return BaseDao.exectuIUD(sql, params);
 
@@ -134,20 +134,20 @@ public class ShopDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from  ANTS_PRODUCT where AP_ID=(select AP_ID from " + "ANTS_SHOP where AP_ID=?)";
+				String sql = "select * from  ants_product where ap_id=(select ap_id from " + "ants_shop where ap_id=?)";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, id);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();
-					shop.put("goodsID", resultset.getString("AP_ID"));
-					shop.put("goodsMobile", resultset.getString("AP_MOBILE"));
-					shop.put("goodsName", resultset.getString("AP_NAME"));
-					shop.put("goodsPrice", resultset.getDouble("AP_PRICE"));
-					shop.put("goodsIntroduce", resultset.getString("AP_INTRODUCE"));
-					shop.put("goodsWays", resultset.getString("AP_WAYS"));
-					shop.put("goodsBargin", resultset.getString("AP_BARGIN"));
-					String fileName=resultset.getString("AP_FILE_NAME");
+					shop.put("goodsID", resultset.getString("ap_id"));
+					shop.put("goodsMobile", resultset.getString("ap_mobile"));
+					shop.put("goodsName", resultset.getString("ap_name"));
+					shop.put("goodsPrice", resultset.getDouble("ap_price"));
+					shop.put("goodsIntroduce", resultset.getString("ap_introduce"));
+					shop.put("goodsWays", resultset.getString("ap_ways"));
+					shop.put("goodsBargin", resultset.getString("ap_bargin"));
+					String fileName=resultset.getString("ap_file_name");
 					String fn[]=fileName.split(";");
 					for(String filename:fn) {
 						img.add(filename);
@@ -186,18 +186,18 @@ public class ShopDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ants_product where AP_ID in"
-						+ "(select AP_ID from ants_shop where AS_SELLER_MOBILE=?" + ")";
+				String sql = "select * from ants_product where ap_id in"
+						+ "(select AP_ID from ants_shop where as_seller_mobile=?" + ")";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, mobile);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();
-					ID.add(resultset.getString("AP_ID"));
-					Name.add(resultset.getString("AP_NAME"));
-					String fileName=resultset.getString("AP_FILE_NAME");
-					Introduce.add(resultset.getString("AP_INTRODUCE"));
-					Price.add(resultset.getDouble("AP_PRICE"));
+					ID.add(resultset.getString("ap_id"));
+					Name.add(resultset.getString("ap_name"));
+					String fileName=resultset.getString("ap_file_name");
+					Introduce.add(resultset.getString("ap_introduce"));
+					Price.add(resultset.getDouble("ap_price"));
 					String fn[]=fileName.split(";");
 					for(String filename:fn) {
 						img.add(filename);

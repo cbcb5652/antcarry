@@ -32,22 +32,22 @@ public class ProductDao {
             try {
                 String sql = "";
                 if (type.equals("0")) {
-                    sql = "select * from ANTS_PRODUCT where AP_STATUS=? ";
+                    sql = "select * from ants_product where ap_status=? ";
                 } else if (type.equals("1")) {
-                    sql = "select * from ANTS_PRODUCT where  AP_STATUS=? order by AP_PRICE ";
+                    sql = "select * from ants_product where  ap_status=? order by ap_price ";
                 } else if (type.equals("2")) {
-                    sql = "select * from ANTS_PRODUCT where  AP_STATUS=? order by AP_PRICE desc";
+                    sql = "select * from ants_product where  ap_status=? order by ap_price desc";
                 }
                 statement = connection.prepareStatement(sql);
                 statement.setInt(1, status);
                 resultset = statement.executeQuery();
                 while (resultset.next()) {
                     ArrayList<String> img = new ArrayList<String>();
-                    ID.add(resultset.getString("AP_ID"));
-                    String fileName = resultset.getString("AP_FILE_NAME");
-                    Price.add(resultset.getDouble("AP_PRICE"));
-                    Name.add(resultset.getString("AP_NAME"));
-                    Introduce.add(resultset.getString("AP_INTRODUCE"));
+                    ID.add(resultset.getString("ap_id"));
+                    String fileName = resultset.getString("ap_file_name");
+                    Price.add(resultset.getDouble("ap_price"));
+                    Name.add(resultset.getString("ap_name"));
+                    Introduce.add(resultset.getString("ap_introduce"));
 
                     String fn[] = fileName.split(";");
                     for (String filename : fn) {
@@ -99,7 +99,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select * from ANTS_PRODUCT where AP_PRICE>=? and AP_PRICE<=? and AP_STATUS=? order by AP_PRICE";
+                String sql = "select * from ants_product where ap_price>=? and ap_price<=? and ap_status=? order by ap_price";
                 statement = connection.prepareStatement(sql);
                 statement.setDouble(1, price1);
                 statement.setDouble(2, price2);
@@ -107,11 +107,11 @@ public class ProductDao {
                 resultset = statement.executeQuery();
                 while (resultset.next()) {
                     ArrayList<String> img = new ArrayList<String>();
-                    ID.add(resultset.getString("AP_ID"));
-                    String fileName = resultset.getString("AP_FILE_NAME");
-                    Price.add(resultset.getDouble("AP_PRICE"));
-                    Name.add(resultset.getString("AP_NAME"));
-                    Introduce.add(resultset.getString("AP_INTRODUCE"));
+                    ID.add(resultset.getString("ap_id"));
+                    String fileName = resultset.getString("ap_file_name");
+                    Price.add(resultset.getDouble("ap_price"));
+                    Name.add(resultset.getString("ap_name"));
+                    Introduce.add(resultset.getString("ap_introduce"));
                     String fn[] = fileName.split(";");
                     for (String filename : fn) {
                         img.add(filename);
@@ -152,7 +152,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select count(*)  from ANTS_PRODUCT where AP_MOBILE=?";
+                String sql = "select count(*)  from ants_product where ap_mobile=?";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, mobile);
                 resultset = statement.executeQuery();
@@ -184,18 +184,18 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select *  from ANTS_PRODUCT where AP_MOBILE="
-                        + "(select AP_MOBILE from ANTS_PRODUCT where AP_ID=?" + ")";
+                String sql = "select *  from ants_product where ap_mobile="
+                        + "(select ap_mobile from ants_product where ap_id=?" + ")";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, id);
                 resultset = statement.executeQuery();
                 while (resultset.next()) {
                     ArrayList<String> img = new ArrayList<String>();
-                    ID.add(resultset.getString("AP_ID"));
-                    Name.add(resultset.getString("AP_NAME"));
-                    Price.add(resultset.getDouble("AP_PRICE"));
-                    String fileName = resultset.getString("AP_FILE_NAME");
-                    Mobile.add(resultset.getString("AP_MOBILE"));
+                    ID.add(resultset.getString("ap_id"));
+                    Name.add(resultset.getString("ap_name"));
+                    Price.add(resultset.getDouble("ap_price"));
+                    String fileName = resultset.getString("ap_file_name");
+                    Mobile.add(resultset.getString("ap_mobile"));
                     String fn[] = fileName.split(";");
                     for (String filename : fn) {
                         img.add(filename);
@@ -231,7 +231,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select count(*) from ANTS_PRODUCT where AP_STATUS=? ";
+                String sql = "select count(*) from ants_product where ap_status=? ";
 
                 statement = connection.prepareStatement(sql);
                 statement.setInt(1, status);
@@ -275,7 +275,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select * from ANTS_PRODUCT where AP_STATUS=? limit ?,?";
+                String sql = "select * from ants_product where ap_status=? limit ?,?";
 
                 statement = connection.prepareStatement(sql);
                 statement.setInt(1, status);
@@ -355,18 +355,18 @@ public class ProductDao {
                 int id = ProductCategoryDao.selectIDByName(name);
                 if (id < 9) {
                     if (type.equals("1")) {
-                        sql = "select * from ANTS_PRODUCT where APC_ID=? order by AP_PRICE limit ?,?   ";
+                        sql = "select * from ants_product where apc_id=? order by ap_price limit ?,?   ";
                     } else {
-                        sql = "select * from ANTS_PRODUCT where APC_ID=? order by AP_PRICE desc limit ?,? ";
+                        sql = "select * from ants_product where apc_id=? order by ap_price desc limit ?,? ";
                     }
 
                 } else {
                     if (type.equals("1")) {
-                        sql = "select * from ANTS_PRODUCT where APC_CHILD_ID=(select"
-                                + " APC_ID from ANTS_PRODUCT_CATEGORY where APC_NAME= ?" + ") order by AP_PRICE limit ?,?  ";
+                        sql = "select * from ants_product where apc_child_id=(select"
+                                + " apc_id from ants_product_category where apc_name= ?" + ") order by ap_price limit ?,?  ";
                     } else {
-                        sql = "select * from ANTS_PRODUCT where APC_CHILD_ID=(select"
-                                + " APC_ID from ANTS_PRODUCT_CATEGORY where APC_NAME= ?" + ") order by AP_PRICE desc limit ?,? ";
+                        sql = "select * from ants_product where apc_child_id=(select"
+                                + " apc_id from ants_product_category where apc_name= ?" + ") order by ap_price desc limit ?,? ";
                     }
 
                 }
@@ -454,10 +454,10 @@ public class ProductDao {
                 String sql = "";
                 int id = ProductCategoryDao.selectIDByName(name);
                 if (id < 9) {
-                    sql = "select * from ANTS_PRODUCT where APC_ID=? and AP_PRICE>=? and AP_PRICE<=?  limit ?,?";
+                    sql = "select * from ants_product where apc_id=? and ap_price>=? and ap_price<=?  limit ?,?";
                 } else {
-                    sql = "select * from ANTS_PRODUCT where APC_CHILD_ID=(select"
-                            + " APC_ID from ANTS_PRODUCT_CATEGORY where APC_NAME= ?" + ") and AP_PRICE>=? and AP_PRICE<=? limit ?,?";
+                    sql = "select * from ants_product where apc_child_id=(select"
+                            + " apc_id from ants_product_category where apc_name= ?" + ") and ap_price>=? and ap_price<=? limit ?,?";
                 }
 
                 statement = connection.prepareStatement(sql);
@@ -546,10 +546,10 @@ public class ProductDao {
                 String sql = "";
                 int id = ProductCategoryDao.selectIDByName(name);
                 if (id < 9) {
-                    sql = "select * from ANTS_PRODUCT where APC_ID=? limit ?,?";
+                    sql = "select * from ants_product where apc_id=? limit ?,?";
                 } else {
-                    sql = "select * from ANTS_PRODUCT where APC_CHILD_ID=(select"
-                            + " APC_ID from ANTS_PRODUCT_CATEGORY where APC_NAME= ?" + ") limit ?,?";
+                    sql = "select * from ants_product where apc_child_id=(select"
+                            + " apc_id from ants_product_category where apc_name= ?" + ") limit ?,?";
                 }
 
                 statement = connection.prepareStatement(sql);
@@ -619,12 +619,12 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select APC_NAME from ANTS_PRODUCT_CATEGORY where APC_ID>=?";
+                String sql = "select apc_name from ants_product_category where apc_id>=?";
                 statement = connection.prepareStatement(sql);
                 statement.setInt(1, 9);
                 resultset = statement.executeQuery();
                 while (resultset.next()) {
-                    classify.add(resultset.getString("APC_NAME"));
+                    classify.add(resultset.getString("apc_name"));
                 }
                 product.put("classify", classify);
             } catch (SQLException e) {
@@ -645,7 +645,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select * from ANTS_PRODUCT where AP_ID=?";
+                String sql = "select * from ants_product where ap_id=?";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, id);
                 resultset = statement.executeQuery();
@@ -683,12 +683,12 @@ public class ProductDao {
             connection = BaseDao.getConnection();
             try {
                 //更新数据,观看+1
-                String updateSql = "update ANTS_PRODUCT set AP_VIEW_COUNT = AP_VIEW_COUNT + 1 where AP_ID = ?";
+                String updateSql = "update ants_product set ap_view_count = ap_view_count + 1 where ap_id = ?";
                 statement = connection.prepareStatement(updateSql);
                 statement.setString(1, id);
                 statement.execute();
 
-                String sql = "select * from ANTS_PRODUCT where AP_ID=?";
+                String sql = "select * from ants_product where ap_id=?";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, id);
                 resultset = statement.executeQuery();
@@ -746,7 +746,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select AP_FILE_NAME from ANTS_PRODUCT where AP_ID=?";
+                String sql = "select ap_file_name from ants_product where ap_id=?";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, id);
                 resultset = statement.executeQuery();
@@ -766,7 +766,7 @@ public class ProductDao {
 
     // 插入数据
     public static int insert(ProductBean user) {
-        String sql = "insert into ANTS_PRODUCT (ap_id,ap_mobile,ap_name,ap_price,ap_introduce,ap_ways" +
+        String sql = "insert into ants_product (ap_id,ap_mobile,ap_name,ap_price,ap_introduce,ap_ways" +
                 ",ap_bargin,apc_child_id,apc_id,ap_file_name,ap_status) values(?,?,?,?,?,?,?,?,?,?,?)";
         Object[] params = {user.getId(), user.getMobile(), user.getName(), user.getPrice(), user.getIntroduce(), user.getWays(),
                 user.getBargin(), user.getApcChildId(), user.getApcId(), user.getFileName(), user.getStatus()};
@@ -778,15 +778,15 @@ public class ProductDao {
         // 判断文件路径是否存在
         System.out.println("fileName" + user.getFileName());
         if (user.getFileName() != null) {// 文件路径存在
-            String sql = "update ANTS_PRODUCT set AP_NAME=?," + "AP_PRICE=?," + "AP_INTRODUCE=?," + "AP_WAYS=?,"
-                    + "AP_BARGIN=?," + "AP_FILE_NAME=?," + "APC_ID=?," + "APC_CHILD_ID=?" + " where AP_ID=?";
+            String sql = "update ants_product set ap_name=?," + "ap_price=?," + "ap_introduce=?," + "ap_ways=?,"
+                    + "ap_bargin=?," + "ap_file_name=?," + "apc_id=?," + "apc_child_id=?" + " where ap_id=?";
 
             Object[] params = {user.getName(), user.getPrice(), user.getIntroduce(), user.getWays(), user.getBargin(),
                     user.getFileName(), user.getApcId(), user.getApcChildId(), user.getId()};
             return BaseDao.exectuIUD(sql, params);
         } else {// 文件路径不存在
-            String sql = "update ANTS_PRODUCT set AP_NAME=?," + "AP_PRICE=?," + "AP_INTRODUCE=?," + "AP_WAYS=?,"
-                    + "AP_BARGIN=?," + "APC_ID=?," + "APC_CHILD_ID=?" + " where AP_ID=?";
+            String sql = "update ants_product set ap_name=?," + "ap_price=?," + "ap_introduce=?," + "ap_ways=?,"
+                    + "ap_bargin=?," + "apc_id=?," + "apc_child_id=?" + " where ap_id=?";
             Object[] params = {user.getName(), user.getPrice(), user.getIntroduce(), user.getWays(), user.getBargin(),
                     user.getApcId(), user.getApcChildId(), user.getId()};
             return BaseDao.exectuIUD(sql, params);
@@ -796,7 +796,7 @@ public class ProductDao {
 
     // 删除某一行数据
     public static int delete(String id) {
-        String sql = "delete from ANTS_PRODUCT where AP_ID=?";
+        String sql = "delete from ants_product where ap_id=?";
         Object[] params = {id};
         return BaseDao.exectuIUD(sql, params);
 
@@ -814,10 +814,10 @@ public class ProductDao {
                 String sql = "";
                 int id = ProductCategoryDao.selectIDByName(name);
                 if (id < 9) {
-                    sql = "select count(*) from ANTS_PRODUCT where APC_ID=?";
+                    sql = "select count(*) from ants_product where apc_id=?";
                 } else {
-                    sql = "select count(*) from ANTS_PRODUCT where APC_CHILD_ID=(select"
-                            + " APC_ID from ANTS_PRODUCT_CATEGORY where APC_NAME= ?" + ")";
+                    sql = "select count(*) from ants_product where apc_child_id=(select"
+                            + " apc_id from ants_product_category where apc_name= ?" + ")";
                 }
                 statement = connection.prepareStatement(sql);
                 if (id < 9) {
@@ -853,7 +853,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select * from ANTS_PRODUCT where APC_CHILD_ID=? order by AP_ID  desc limit ?,? ";
+                String sql = "select * from ants_product where apc_child_id=? order by ap_id  desc limit ?,? ";
                 statement = connection.prepareStatement(sql);
                 statement.setInt(1, childid);
                 statement.setInt(2, 0);
@@ -894,7 +894,7 @@ public class ProductDao {
         if (connection == null) {
             connection = BaseDao.getConnection();
             try {
-                String sql = "select *  from ANTS_PRODUCT ";
+                String sql = "select *  from ants_product ";
                 statement = connection.prepareStatement(sql);
                 resultset = statement.executeQuery();
                 while (resultset.next()) {

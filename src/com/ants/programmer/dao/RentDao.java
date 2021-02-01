@@ -13,14 +13,14 @@ import net.sf.json.JSONObject;
 public class RentDao {
 	// 插入数据
 	public static int insert(RentBean rent) {
-		String sql = "insert into ANTS_RENT values(?,?,?)";
+		String sql = "insert into ants_rent values(?,?,?)";
 		Object[] params = { rent.getId(),rent.getStock(),rent.getStatus() };
 		return BaseDao.exectuIUD(sql, params);
 	}
 	
 	// 删除某一行数据
 	public static int delete(String id) {
-		String sql = "delete from ANTS_RENT where AR_ID=?";
+		String sql = "delete from ants_rent where ar_id=?";
 		Object[] params = { id };
 		return BaseDao.exectuIUD(sql, params);
 
@@ -35,12 +35,12 @@ public class RentDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select AR_STOCK from ANTS_RENT where AR_ID=?";
+				String sql = "select ar_stock from ants_rent where ar_id=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, id);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
-					product.put("goodsStock", resultset.getString("AR_STOCK"));
+					product.put("goodsStock", resultset.getString("ar_stock"));
 				}
 
 			} catch (SQLException e) {
@@ -77,22 +77,22 @@ public class RentDao {
 		if (connection == null) {
 			connection = BaseDao.getConnection();
 			try {
-				String sql = "select * from ANTS_PRODUCT where AP_MOBILE=? and AP_STATUS=?";
+				String sql = "select * from ants_product where ap_mobile=? and ap_status=?";
 				statement = connection.prepareStatement(sql);
 				statement.setString(1, mobile);
 				statement.setInt(2, status);
 				resultset = statement.executeQuery();
 				while (resultset.next()) {
 					ArrayList<String> img=new ArrayList<String>();
-					ID.add(resultset.getString("AP_ID"));
-					Name.add(resultset.getString("AP_NAME"));
-					Price.add(resultset.getDouble("AP_PRICE"));
-					Introduce.add(resultset.getString("AP_INTRODUCE"));
-					Ways.add(resultset.getString("AP_WAYS"));
-					Bargin.add(resultset.getString("AP_BARGIN"));
-					ParentID.add(resultset.getInt("APC_ID"));
-					ChildID.add(resultset.getInt("APC_CHILD_ID"));
-					String filename=resultset.getString("AP_FILE_NAME");
+					ID.add(resultset.getString("ap_id"));
+					Name.add(resultset.getString("ap_name"));
+					Price.add(resultset.getDouble("ap_price"));
+					Introduce.add(resultset.getString("ap_introduce"));
+					Ways.add(resultset.getString("ap_ways"));
+					Bargin.add(resultset.getString("ap_bargin"));
+					ParentID.add(resultset.getInt("apc_id"));
+					ChildID.add(resultset.getInt("ap_child_id"));
+					String filename=resultset.getString("ap_file_name");
 					String fn[]=filename.split(";");
 					for(String FileName:fn) {
 						img.add(FileName);

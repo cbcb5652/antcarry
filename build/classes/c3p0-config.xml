@@ -2,8 +2,8 @@
 	<named-config name="czd">
 	<!-- 配置用户密码，连接，驱动 -->
 	<property name="user">root</property>
-	<property name="password"></property>
-	<property name="jdbcUrl">jdbc:mysql://localhost:3306/ants?characterEncoding=utf8</property>
+	<property name="password">123456</property>
+	<property name="jdbcUrl">jdbc:mysql://49.232.151.218:3306/ants?characterEncoding=utf8</property>
 	<property name="driverClass">com.mysql.jdbc.Driver</property>
 	<!-- 数据库连接池一次向数据库服务要多少个连接 -->
 	<property name="acquireIncrement">5</property>
